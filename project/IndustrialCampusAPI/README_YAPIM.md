@@ -38,6 +38,6 @@ Bu proje, gerçek bir sanayi kampüsünün dijital yönetimi için sıfırdan, p
 
 **Kısacası:**
 - Temiz kod, güvenli altyapı, gerçek iş ihtiyaçlarına uygun modüller.
-- Her şey profesyonel, insan eliyle ve özenle hazırlandı.
+- Kod yapısı tamamen lisanlanmış durumda, sadece staj projesine uygun şekilde kodlanmıştır. Kopyalanması ve değiştirilmesi yasaktır!
 
 # powered by 1986sec 
