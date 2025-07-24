@@ -1,0 +1,112 @@
+2025-07-24 13:37:39.889 +03:00 [WRN] Swagger UI is disabled in production for security reasons.
+2025-07-24 13:37:41.461 +03:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+PRAGMA journal_mode = 'wal';
+2025-07-24 13:37:41.759 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Firmalar" (
+    "FirmaID" INTEGER NOT NULL CONSTRAINT "PK_Firmalar" PRIMARY KEY AUTOINCREMENT,
+    "FirmaAdi" TEXT NOT NULL,
+    "Adres" TEXT NULL,
+    "Telefon" TEXT NULL,
+    "Email" TEXT NULL,
+    "OlusturmaTarihi" TEXT NOT NULL
+);
+2025-07-24 13:37:41.763 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Kullanicilar" (
+    "KullaniciID" INTEGER NOT NULL CONSTRAINT "PK_Kullanicilar" PRIMARY KEY AUTOINCREMENT,
+    "AdSoyad" TEXT NOT NULL,
+    "Email" TEXT NOT NULL,
+    "SifreHash" TEXT NOT NULL,
+    "SifreSifirlamaToken" TEXT NULL,
+    "SifreSifirlamaTokenSonKullanma" TEXT NULL,
+    "RefreshToken" TEXT NULL,
+    "RefreshTokenSonKullanma" TEXT NULL,
+    "Rol" TEXT NOT NULL,
+    "OlusturmaTarihi" TEXT NOT NULL,
+    "Aktif" INTEGER NOT NULL
+);
+2025-07-24 13:37:41.766 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "GelirGiderler" (
+    "IslemID" INTEGER NOT NULL CONSTRAINT "PK_GelirGiderler" PRIMARY KEY AUTOINCREMENT,
+    "FirmaID" INTEGER NOT NULL,
+    "Tarih" TEXT NOT NULL,
+    "Tutar" decimal(18,2) NOT NULL,
+    "IslemTipi" TEXT NOT NULL,
+    "Aciklama" TEXT NULL,
+    "OlusturmaTarihi" TEXT NOT NULL,
+    CONSTRAINT "FK_GelirGiderler_Firmalar_FirmaID" FOREIGN KEY ("FirmaID") REFERENCES "Firmalar" ("FirmaID") ON DELETE CASCADE
+);
+2025-07-24 13:37:41.770 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Ziyaretler" (
+    "ZiyaretID" INTEGER NOT NULL CONSTRAINT "PK_Ziyaretler" PRIMARY KEY AUTOINCREMENT,
+    "FirmaID" INTEGER NOT NULL,
+    "KullaniciID" INTEGER NOT NULL,
+    "ZiyaretTarihi" TEXT NOT NULL,
+    "Amac" TEXT NULL,
+    "Notlar" TEXT NULL,
+    "OlusturmaTarihi" TEXT NOT NULL,
+    CONSTRAINT "FK_Ziyaretler_Firmalar_FirmaID" FOREIGN KEY ("FirmaID") REFERENCES "Firmalar" ("FirmaID") ON DELETE CASCADE,
+    CONSTRAINT "FK_Ziyaretler_Kullanicilar_KullaniciID" FOREIGN KEY ("KullaniciID") REFERENCES "Kullanicilar" ("KullaniciID") ON DELETE RESTRICT
+);
+2025-07-24 13:37:41.774 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Kullanicilar" ("KullaniciID", "AdSoyad", "Aktif", "Email", "OlusturmaTarihi", "RefreshToken", "RefreshTokenSonKullanma", "Rol", "SifreHash", "SifreSifirlamaToken", "SifreSifirlamaTokenSonKullanma")
+VALUES (1, 'Admin User', 1, 'admin@campus.com', '2025-07-24 13:37:41.6557395', NULL, NULL, 'Admin', '$2a$11$pgvK0GkqeUiskQeQ0ZRzKOStSlxHv7xx10atiXNIDSuF9fs4HoG2.', NULL, NULL);
+2025-07-24 13:37:41.777 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "IX_Firmalar_FirmaAdi" ON "Firmalar" ("FirmaAdi");
+2025-07-24 13:37:41.781 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_GelirGiderler_FirmaID" ON "GelirGiderler" ("FirmaID");
+2025-07-24 13:37:41.786 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE UNIQUE INDEX "IX_Kullanicilar_Email" ON "Kullanicilar" ("Email");
+2025-07-24 13:37:41.790 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Ziyaretler_FirmaID" ON "Ziyaretler" ("FirmaID");
+2025-07-24 13:37:41.794 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Ziyaretler_KullaniciID" ON "Ziyaretler" ("KullaniciID");
+2025-07-24 13:37:41.928 +03:00 [INF] Sanayi Kampüsü Dijital Yönetim Sistemi API başlatıldı
+2025-07-24 13:37:42.087 +03:00 [INF] User profile is available. Using 'C:\Users\1986sec\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-07-24 13:37:42.100 +03:00 [INF] Creating key {6d9a4083-ac63-45d0-9c61-96ed833cc819} with creation date 2025-07-24 10:37:42Z, activation date 2025-07-24 10:37:42Z, and expiration date 2025-10-22 10:37:42Z.
+2025-07-24 13:37:42.130 +03:00 [INF] Writing data to file 'C:\Users\1986sec\AppData\Local\ASP.NET\DataProtection-Keys\key-6d9a4083-ac63-45d0-9c61-96ed833cc819.xml'.
+2025-07-24 13:37:42.206 +03:00 [INF] Now listening on: http://localhost:5000
+2025-07-24 13:37:42.209 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-24 13:37:42.212 +03:00 [INF] Hosting environment: Production
+2025-07-24 13:37:42.214 +03:00 [INF] Content root path: C:\Users\1986sec\Downloads\project-bolt-sb1-eqkawgbh\project
+2025-07-24 13:37:47.426 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2025-07-24 13:37:47.471 +03:00 [WRN] Failed to determine the https port for redirect.
+2025-07-24 13:37:47.955 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 404 0 null 536.7236ms
+2025-07-24 13:37:47.966 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/, Response status code: 404
+2025-07-24 13:37:49.190 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2025-07-24 13:37:49.197 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 404 0 null 6.9263ms
+2025-07-24 13:37:49.201 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/, Response status code: 404
+2025-07-24 13:40:49.990 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2025-07-24 13:40:49.999 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 404 0 null 9.4499ms
+2025-07-24 13:40:50.003 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/, Response status code: 404
+2025-07-24 13:40:57.940 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swager - null null
+2025-07-24 13:40:57.966 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swager - 404 0 null 25.8578ms
+2025-07-24 13:40:58.003 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/swager, Response status code: 404
+2025-07-24 13:41:38.106 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger - null null
+2025-07-24 13:41:38.110 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger - 404 0 null 4.5274ms
+2025-07-24 13:41:38.115 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/swagger, Response status code: 404
+2025-07-24 13:45:37.638 +03:00 [INF] Executed DbCommand (8ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2025-07-24 13:45:37.749 +03:00 [INF] Sanayi Kampüsü Dijital Yönetim Sistemi API başlatıldı
+2025-07-24 13:45:37.769 +03:00 [INF] User profile is available. Using 'C:\Users\1986sec\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-07-24 13:45:37.842 +03:00 [INF] Now listening on: http://localhost:5000
+2025-07-24 13:45:37.844 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-24 13:45:37.847 +03:00 [INF] Hosting environment: Production
+2025-07-24 13:45:37.849 +03:00 [INF] Content root path: C:\Users\1986sec\Downloads\project-bolt-sb1-eqkawgbh\project
+2025-07-24 13:45:55.682 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2025-07-24 13:45:56.143 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 301 0 null 462.4487ms
+2025-07-24 13:45:56.160 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/index.html - null null
+2025-07-24 13:45:56.285 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/index.html - 200 null text/html;charset=utf-8 124.3554ms
+2025-07-24 13:45:56.315 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger-ui-bundle.js - null null
+2025-07-24 13:45:56.316 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger-ui-standalone-preset.js - null null
+2025-07-24 13:45:56.329 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger-ui.css - null null
+2025-07-24 13:45:56.381 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2025-07-24 13:45:56.382 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2025-07-24 13:45:56.404 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2025-07-24 13:45:56.460 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger-ui.css - 200 143943 text/css 129.257ms
+2025-07-24 13:45:56.461 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger-ui-standalone-preset.js - 200 339486 text/javascript 145.4706ms
+2025-07-24 13:45:56.481 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger-ui-bundle.js - 200 1096145 text/javascript 166.1252ms
+2025-07-24 13:45:56.728 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - null null
+2025-07-24 13:45:56.792 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/favicon-32x32.png - null null
+2025-07-24 13:45:56.836 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2025-07-24 13:45:56.884 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/favicon-32x32.png - 200 628 image/png 92.5326ms
+2025-07-24 13:45:56.964 +03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 235.895ms
